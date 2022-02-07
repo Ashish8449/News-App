@@ -40,6 +40,15 @@ hr {
   width: 95vw;
   margin: 0 auto;
 }
+.loader {
+  text-align: center;
+  display: none;
+}
+.loader img {
+  width: 60px;
+  height: 60px;
+  filter: none;
+}
 
 /* header */
 
@@ -90,6 +99,8 @@ hr {
 .nav-bar ul li a {
   color: #fff;
   text-transform: uppercase;
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .nav-bar ul li a:hover {
@@ -233,6 +244,9 @@ hr {
   font-size: 14px;
   margin: 10px 0 10px 10px;
 }
+.hot img {
+  opacity: 0.9;
+}
 
 .hot-topic-content a:hover {
   text-decoration: underline;
@@ -294,7 +308,9 @@ article img {
   background: #f3f3f3;
   margin: 15px 30px;
 }
-
+.container {
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
 /*** main container right */
 
 .main-container-right {
