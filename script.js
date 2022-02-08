@@ -7,6 +7,7 @@ const btnTimes = document.querySelector(".times-btn");
 const navBar = document.getElementById("nav-bar");
 const loader = document.querySelector(".loader");
 const container = document.querySelector(".container");
+const latestNews = document.querySelector(".latestNews");
 /*=============================================================================
 funtions                                                   
 =============================================================================*/
@@ -19,10 +20,72 @@ const addElements = function (arr, element) {
 const gerateRandomNub = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 };
+/*=============================================================================
+                             country wise                                                  
+=============================================================================*/
+
+const countrymarkup = function (article) {
+  const indx = 0;
+  return `  <main>
+  <section class="main-container-left">
+    <h2>Top Stories</h2>
+    <div class="container-top-left">
+      <article>
+        <img src=${article[indx].urlToImage || "images/top-left.jpg"} />
+
+        <div>
+          <h3> ${
+            article[indx].title || "Best Used Cars Under $20, 000 for families"
+          }</h3>
+
+          <p>
+           ${article[indx].content.slice(0, 180)}...
+          </p>
+
+          <a href="${article[indx].url}" >Read More <span>>></span></a>
+        </div>
+      </article>
+    </div>
+
+    <div class="container-bottom-left">
+   
+
+    ${addElements(article.slice(6, 10), withTopimg)}
+    </div>
+  </section>
+
+  <section class="main-container-right">
+    <h2>Latest Stories</h2>
+
+  
+    ${addElements(article.slice(10), latestStoriesItem)}
+    
+   
+  </section>
+</main>`;
+};
+
+const countryWise = async function (country) {
+  container.innerHTML = "";
+  loaderOn(container, 200);
+  const res = await fetch(
+    `https://newsapi.org/v2/everything?q=india&apiKey=223d63ea9a6041ce95a4099d57ccefae`
+  );
+  const data = await res.json();
+  const div = document.createElement("div");
+  div.innerHTML = countrymarkup(data.articles);
+  console.log(data.articles);
+  console.log(div);
+  loaderOff(container);
+  addChild(div, container);
+};
 
 const mainPage = function (data) {
   const article = data.articles;
-  const indx = gerateRandomNub(5, 15);
+  const indx = 5;
+  const start = 0;
+  console.log(start);
+
   return `  <section class="banner">
     <div class="banner-main-content">
       <h2>GET THE WORLD'S LATEST NEWS</h2>
@@ -60,7 +123,7 @@ const mainPage = function (data) {
   
 
 
-      ${addElements(article.slice(2, 6), cardWithBg)}
+      ${addElements(article.slice(start, start + 4), cardWithBg)}
 
      
      
@@ -91,107 +154,19 @@ const mainPage = function (data) {
       </div>
 
       <div class="container-bottom-left">
-        <article>
-          <img src="images/bottom-left-1.jpg" />
-          <div>
-            <h3>Best smart speakers for the year</h3>
-            <p>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-              Commodi iure modi animi cupiditate. Explicabo, nihil?
-            </p>
+     
 
-            <a href="#">Read More <span>>></span></a>
-          </div>
-        </article>
-
-        <article>
-          <img src="images/bottom-left-2.jpg" />
-          <div>
-            <h3>
-              iPad Pro, reviewed: Has the iPad become my main computer now?
-            </h3>
-            <p>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-              Commodi iure modi animi cupiditate. Explicabo, nihil?
-            </p>
-
-            <a href="#">Read More <span>>></span></a>
-          </div>
-        </article>
+      ${addElements(article.slice(6, 10), withTopimg)}
       </div>
     </section>
 
     <section class="main-container-right">
       <h2>Latest Stories</h2>
 
-      <article>
-        <h4>just in</h4>
-        <div>
-          <h2>
-            Disneyland Paris will stream its Lion King stage show Friday
-            night
-          </h2>
-
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
-            repellendus?
-          </p>
-
-          <a href="#">Read More <span>>></span></a>
-        </div>
-        <img src="images/right-4.jpg" />
-      </article>
-      <article>
-        <h4>just in</h4>
-        <div>
-          <h2>
-            Disneyland Paris will stream its Lion King stage show Friday
-            night
-          </h2>
-
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
-            repellendus?
-          </p>
-
-          <a href="#">Read More <span>>></span></a>
-        </div>
-        <img src="images/right-4.jpg" />
-      </article>
-      <article>
-        <h4>just in</h4>
-        <div>
-          <h2>
-            Disneyland Paris will stream its Lion King stage show Friday
-            night
-          </h2>
-
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
-            repellendus?
-          </p>
-
-          <a href="#">Read More <span>>></span></a>
-        </div>
-        <img src="images/right-4.jpg" />
-      </article>
-      <article>
-        <h4>just in</h4>
-        <div>
-          <h2>
-            Disneyland Paris will stream its Lion King stage show Friday
-            night
-          </h2>
-
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
-            repellendus?
-          </p>
-
-          <a href="#">Read More <span>>></span></a>
-        </div>
-        <img src="images/right-4.jpg" />
-      </article>
+    
+      ${addElements(article.slice(10), latestStoriesItem)}
+      
+     
     </section>
   </main>`;
 };
@@ -199,16 +174,26 @@ const mainPage = function (data) {
 const cardWithBg = function (obj) {
   console.log(obj);
   return `    <div class="hot-topic">
-    <img src=${obj.urlToImage || "images/banner-news-3.jpg"} alt="" />
+    <img src=${
+      obj.urlToImage || ` images/banner-news-${gerateRandomNub(1, 5)}.jpg`
+    } alt="" />
 
     <div class="hot-topic-content">
       <h2>
-      ${obj.title}
+      ${
+        obj.title
+          ? obj.title.slice(0, 60)
+          : "Journalists Acting Against National Security To Lose Government Accreditation"
+      }...
       </h2>
 
       <h3>New Topic 1</h3>
       <p>
-       ${obj.content.slice(0, 80)}...
+       ${
+         obj.content
+           ? obj.content.slice(0, 80)
+           : `Journalists acting in a manner prejudicial to the country's "security, sovereignty and integrity" as well `
+       }...
       </p>
       <a href="#">Read More</a>
     </div>
@@ -216,14 +201,21 @@ const cardWithBg = function (obj) {
 };
 const withTopimg = function (obj) {
   return `  <article>
-    <img src="images/bottom-left-2.jpg" />
+    <img src="${obj.urlToImage || "images/banner-news-3.jpg"}" />
     <div>
       <h3>
-        iPad Pro, reviewed: Has the iPad become my main computer now?
+        ${
+          obj.title
+            ? obj.title
+            : "Journalists Acting Against National Security To Lose Government Accreditation"
+        }
       </h3>
       <p>
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-        Commodi iure modi animi cupiditate. Explicabo, nihil?
+       ${
+         obj.content
+           ? obj.content.slice(0, 150)
+           : `Journalists acting in a manner prejudicial to the country's "security, sovereignty and integrity" as well as "public order, decency or morality" will lose their government accreditation`
+       }...
       </p>
 
       <a href="#">Read More <span>>></span></a>
@@ -235,18 +227,24 @@ const latestStoriesItem = function (obj) {
     <h4>just in</h4>
     <div>
       <h2>
-        Disneyland Paris will stream its Lion King stage show Friday
-        night
+       ${
+         obj.title
+           ? obj.title.slice(0, 50)
+           : ` Journalists Acting Against National Security To Lose Government Accreditation`
+       }...
       </h2>
 
       <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
-        repellendus?
+        ${
+          obj.content
+            ? obj.content.slice(0, 80)
+            : `Journalists acting in a manner prejudicial to the country's "security, sovereignty and integrity" as well `
+        }...
       </p>
 
       <a href="#">Read More <span>>></span></a>
     </div>
-    <img src="images/right-4.jpg" />
+    <img src=${obj.urlToImage} ||"images/right-4.jpg" />
   </article>`;
 };
 
@@ -256,7 +254,8 @@ const latestStoriesItem = function (obj) {
 
 const loaderOn = function (parent, marginY) {
   console.log(parent);
-  const ele = parent.querySelector(".loader");
+  const ele = loader;
+  parent.prepend(ele);
   ele.style.display = "block";
   ele.style.margin = `${marginY}px auto`;
 };
@@ -296,7 +295,9 @@ const addChild = function (ele, parent) {
 =============================================================================*/
 const getMainData = async function () {
   try {
+    container.innerHTML = "";
     loaderOn(container, 200);
+
     const res = await fetch(
       "https://newsapi.org/v2/top-headlines?country=in&apiKey=223d63ea9a6041ce95a4099d57ccefae"
     );
@@ -307,11 +308,11 @@ const getMainData = async function () {
     const main_page = document.createElement("div");
     main_page.innerHTML = mainPage(data);
     console.log(data);
+    loaderOff(container);
     addChild(main_page, container);
   } catch (error) {
     alert(error.msg);
   } finally {
-    loaderOff(container);
   }
 };
 
@@ -323,6 +324,50 @@ const loadFunc = function () {
   console.log("done");
   getMainData();
 };
+/*=============================================================================
+                             latest page                                                  
+=============================================================================*/
+const latestFuncData = async function () {
+  const res = await fetch(
+    "https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=223d63ea9a6041ce95a4099d57ccefae"
+  );
+  const data = await res.json();
+  return data.articles;
+};
+
+const LatestFunc = async function () {
+  container.innerHTML = "";
+  loaderOn(container, 200);
+  const latest = document.createElement("div");
+  latest.classList.add("latestNews");
+  const data = await latestFuncData();
+  console.log(data);
+  latest.innerHTML = data.map((item) => {
+    const article = withTopimg(item);
+
+    return article;
+  });
+  addChild(latest, container);
+
+  const articles = document.querySelectorAll("article");
+
+  articles.forEach((article) => {
+    console.log(article);
+    article.classList.add("cardLatestNews");
+  });
+};
+/*=============================================================================
+                             haschange function                                                  
+=============================================================================*/
+
+const hashchangeFunc = function (e) {
+  console.log(e);
+  const hash = e.newURL.slice(e.newURL.lastIndexOf("#") + 1);
+  console.log(hash);
+  if (hash == "Latest") LatestFunc();
+  if (hash == "Home") loadFunc();
+  if (hash == "India") countryWise();
+};
 
 /*=============================================================================
 add event lister                                                  
@@ -330,3 +375,4 @@ add event lister
 btnTimes.addEventListener("click", btnTimesFunc);
 btnHam.addEventListener("click", btnHamFunc);
 window.addEventListener("load", loadFunc);
+window.addEventListener("hashchange", hashchangeFunc);

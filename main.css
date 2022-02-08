@@ -9,8 +9,12 @@ font-family: 'Raleway', sans-serif;
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  line-height: 25px;
 }
 
+html {
+  font-size: 90.5%;
+}
 :root {
   --heading: "Montserrat", sans-serif;
 }
@@ -303,13 +307,20 @@ article img {
 .container-top-left {
   padding: 15px 30px;
 }
+.banner-main-content h2 {
+  line-height: 45px;
+}
 
 .container-bottom-left {
   background: #f3f3f3;
-  margin: 15px 30px;
+  border-radius: 4px;
+  margin: 20px 10px;
+}
+.container-bottom-left article img {
+  filter: none;
 }
 .container {
-  transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+  transition: all 1s;
 }
 /*** main container right */
 
@@ -333,9 +344,9 @@ article img {
 }
 
 .main-container-right img {
-  width: 100px;
-  height: 100px;
+  height: 150px;
   align-self: center;
+  filter: none;
 }
 
 .main-container-right h4 {
@@ -360,8 +371,9 @@ article img {
 .main-container-right article div {
   margin-right: 10px;
 }
-
-/****** footer *****/
+/*================================================================================
+                             footer                                                   
+================================================================================*/
 
 footer {
   background: #252525;
@@ -436,4 +448,32 @@ footer > p {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   opacity: 0.8;
+}
+
+.latestNews {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  padding: 10px 30px;
+  width: 100%;
+  justify-content: flex-start;
+}
+.cardLatestNews {
+  width: calc(20% - 20px);
+  margin: 10px 8px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 4px;
+}
+.cardLatestNews img {
+  height: 150px !important;
+  filter: none;
+  border-radius: 4px 4px 0 0;
+}
+.cardLatestNews div {
+  margin: 5px 0;
+  padding: 5px 10px;
+}
+.cardLatestNews div h3,
+.cardLatestNews div p {
+  margin: 5px 0;
 }
