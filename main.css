@@ -327,6 +327,16 @@ article img {
 .main-container-right {
   padding: 30px 10px;
 }
+.hot-topic::after {
+  content: "";
+  width: calc(100% - 24px);
+  height: 300px;
+  position: absolute;
+  top: 10px;
+  background: black;
+  opacity: 0.4;
+  height: 278px;
+}
 
 .main-container-right > h2 {
   padding: 15px 0 15px 30px;

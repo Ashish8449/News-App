@@ -164,7 +164,7 @@ const mainPage = function (data) {
       <h2>Latest Stories</h2>
 
     
-      ${addElements(article.slice(10), latestStoriesItem)}
+      ${addElements(article.slice(12), latestStoriesItem)}
       
      
     </section>
