@@ -24,56 +24,36 @@ const gerateRandomNub = function (min, max) {
                              country wise                                                  
 =============================================================================*/
 
-const countrymarkup = function (article) {
+const countrymarkup = function (article, country) {
   const indx = 0;
-  return `  <main>
-  <section class="main-container-left">
-    <h2>Top Stories</h2>
-    <div class="container-top-left">
-      <article>
-        <img src=${article[indx].urlToImage || "images/top-left.jpg"} />
-
-        <div>
-          <h3> ${
-            article[indx].title || "Best Used Cars Under $20, 000 for families"
-          }</h3>
-
-          <p>
-           ${article[indx].content.slice(0, 180)}...
-          </p>
-
-          <a href="${article[indx].url}" >Read More <span>>></span></a>
-        </div>
-      </article>
-    </div>
-
-    <div class="container-bottom-left">
+  return `
+  <main class="data">
    
-
-    ${addElements(article.slice(6, 10), withTopimg)}
-    </div>
-  </section>
-
-  <section class="main-container-right">
-    <h2>Latest Stories</h2>
-
   
-    ${addElements(article.slice(10), latestStoriesItem)}
     
-   
-  </section>
-</main>`;
+
+    <section class="main-container-right">
+      <h2 class="Country ">${country}</h2>
+
+    
+      ${addElements(article.slice(0), latestStoriesItem)}
+      
+      ${addElements(article.slice(0), latestStoriesItem)}
+     
+    </section>
+ 
+  </main>`;
 };
 
 const countryWise = async function (country) {
   container.innerHTML = "";
   loaderOn(container, 200);
   const res = await fetch(
-    `https://newsapi.org/v2/everything?q=india&apiKey=223d63ea9a6041ce95a4099d57ccefae`
+    `https://newsapi.org/v2/everything?q=${country}&apiKey=223d63ea9a6041ce95a4099d57ccefae`
   );
   const data = await res.json();
   const div = document.createElement("div");
-  div.innerHTML = countrymarkup(data.articles);
+  div.innerHTML = countrymarkup(data.articles, country.toUpperCase());
   console.log(data.articles);
   console.log(div);
   loaderOff(container);
@@ -140,12 +120,17 @@ const mainPage = function (data) {
 
           <div>
             <h3> ${
-              article[indx].title ||
-              "Best Used Cars Under $20, 000 for families"
+              article[indx].title
+                ? article[indx].title
+                : "Best Used Cars Under $20, 000 for families"
             }</h3>
 
             <p>
-             ${article[indx].content.slice(0, 180)}...
+             ${
+               article[indx].content
+                 ? article[indx].content.slice(0, 180)
+                 : `Journalists acting in a manner prejudicial to the country's "security, sovereignty and integrity" as well`
+             }...
             </p>
 
             <a href="${article[indx].url}" >Read More <span>>></span></a>
@@ -195,7 +180,7 @@ const cardWithBg = function (obj) {
            : `Journalists acting in a manner prejudicial to the country's "security, sovereignty and integrity" as well `
        }...
       </p>
-      <a href="#">Read More</a>
+      <a href="${obj.url}" target="_blank">Read More</a>
     </div>
   </div>`;
 };
@@ -218,13 +203,13 @@ const withTopimg = function (obj) {
        }...
       </p>
 
-      <a href="#">Read More <span>>></span></a>
+      <a href="${obj.url}" target="_blank">Read More <span>>></span></a>
     </div>
   </article>`;
 };
 const latestStoriesItem = function (obj) {
   return `<article>
-    <h4>just in</h4>
+    <h4>${new Date(obj.publishedAt).toDateString()}</h4>
     <div>
       <h2>
        ${
@@ -242,7 +227,7 @@ const latestStoriesItem = function (obj) {
         }...
       </p>
 
-      <a href="#">Read More <span>>></span></a>
+      <a href="${obj.url}" target="_blank">Read More <span>>></span></a>
     </div>
     <img src=${obj.urlToImage} ||"images/right-4.jpg" />
   </article>`;
@@ -329,7 +314,7 @@ const loadFunc = function () {
 =============================================================================*/
 const latestFuncData = async function () {
   const res = await fetch(
-    "https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=223d63ea9a6041ce95a4099d57ccefae"
+    "https://newsapi.org/v2/everything?q=tesla&from=2022-01-09&sortBy=publishedAt&apiKey=223d63ea9a6041ce95a4099d57ccefae"
   );
   const data = await res.json();
   return data.articles;
@@ -339,17 +324,24 @@ const LatestFunc = async function () {
   container.innerHTML = "";
   loaderOn(container, 200);
   const latest = document.createElement("div");
+  const topHeading = document.createElement("h2");
+  topHeading.innerHTML = "Latest News ";
   latest.classList.add("latestNews");
   const data = await latestFuncData();
   console.log(data);
-  latest.innerHTML = data.map((item) => {
-    const article = withTopimg(item);
+  latest.innerHTML += data
+    .map((item) => {
+      const article = withTopimg(item);
 
-    return article;
-  });
+      return article;
+    })
+    .join("");
+  latest.prepend(topHeading);
   addChild(latest, container);
+  console.log(data.articles);
 
   const articles = document.querySelectorAll("article");
+  console.log(articles);
 
   articles.forEach((article) => {
     console.log(article);
@@ -366,7 +358,7 @@ const hashchangeFunc = function (e) {
   console.log(hash);
   if (hash == "Latest") LatestFunc();
   if (hash == "Home") loadFunc();
-  if (hash == "India") countryWise();
+  else countryWise(hash);
 };
 
 /*=============================================================================
