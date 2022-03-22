@@ -3,6 +3,14 @@
 
 A basic News app example. Uses the News API to request News data.
 
+## Features
+
+- Top headlines will be displayed on the home page
+- Get news headline
+- Get news by category
+- Get news including a keyword
+- SPA implemented using hashchange
+
 # Tools And Languages
 To make this application, we're going to need to cover the following tools and languages:
 1. HTML - (hyper-text-markup-language) the information represented on the page.
