@@ -1,4 +1,4 @@
-## News API
+## News APP
 
 
 A basic News app example. Uses the News API to request News data.
