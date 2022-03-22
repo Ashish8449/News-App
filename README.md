@@ -1,7 +1,7 @@
 ## News APP
 
 
-A basic News app example. Uses the News API to request News data.
+News App is a simple news app 🗞️ which uses NewsAPI to fetch top news headlines from the API. The main aim of this app is to be a leading example of how to build a Modern website
 
 ## Features
 
